@@ -1,0 +1,20 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Search{% endblock title %}
+
+{% block content %}
+
+    <h3 class="text-primary">Search Results</h3>
+    <hr class="mb-4">
+
+    {% for every in object_list %}
+        <div class="p-4 mb-3 border rounded shadow-sm bg-light">
+            <h3><a href="{% url 'detail' every.pk %}" class="text-dark text-decoration-none">{{ every.title }}</a></h3>
+            <p class="text-muted">Author: <span class="fw-bold">{{ every.author }}</span></p>
+        </div>
+    {% empty %}
+        <h5 class="text-danger">Nothing found :(</h5>
+    {% endfor %}
+
+{% endblock content %}

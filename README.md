@@ -1,5 +1,3 @@
-# E---Book-Store
-This is an online Book Store, where you can get a lots of libraries including coding books.
 <p id ="top" align="center">
   <img src="https://github.com/YashMarmat/Pages-App-django/blob/master/templates/django bookstore logo.png" width="90%">
 </p>
@@ -56,17 +54,17 @@ yash@yash-SVE15113ENB:~/Documents/django_project/$
 
 * Now Setup the virtual environment
 
-$pipenv shell
+$`pipenv shell`
 
-$pipenv install django==3.0
+$`pipenv install django==3.0`
 
 ## Books_App
 
 Lets begin our project by starting our project and installing a books app, type below commands in terminal.
 
-(django_project)$django-admin startproject ecom_project . (do not avoid this period)
+(django_project)$`django-admin startproject ecom_project .` (do not avoid this period)
 
-(django_project)$python manage.py startapp books
+(django_project)$`python manage.py startapp books`
 
 Now, open your favourite IDE and locate this project directory. (Im using VS Code so it should be something like this) note that at this point django doesnt know about this app, therefore we need to mention this app name inside our settings.py file.
 
@@ -106,7 +104,7 @@ Now put the following code in it,
 	    follow_author = models.CharField(max_length=2083, blank=True)  
 	    book_available = models.BooleanField(default=False)
 
-	    def _str_(self):
+	    def __str__(self):
 		return self.title
 
 
@@ -114,7 +112,7 @@ Now put the following code in it,
 		product = models.ForeignKey(Book, max_length=200, null=True, blank=True, on_delete = models.SET_NULL)
 		created =  models.DateTimeField(auto_now_add=True) 
 
-		def _str_(self):
+		def __str__(self):
 			return self.product.title
 
 
@@ -125,7 +123,7 @@ I created a model named as 'Book' working on default django model (models.Model)
 Next model is our 'Order' model which basically takes the record ordered books. It has one product field which has a ForeignKey relationship (more on <a href = "https://docs.djangoproject.com/en/3.0/topics/db/examples/one_to_one/">ForeignKey</a>) with our Book model
 and the other field is created which takes a record of at which time order is being made.
 
-Also, both models uses a def_str_(self) for title, which is basically a string representation which means that on admin page for both models the book title will be shown up instead of the some id like ---> object.id(1) which is not that friendly to understand.
+Also, both models uses a def__str__(self) for title, which is basically a string representation which means that on admin page for both models the book title will be shown up instead of the some id like ---> object.id(1) which is not that friendly to understand.
 
 Note: max_length is used to ensure that only certain limit of characters is being used in the field (in the case of title and author the admin can use up to 200 characters only and in description upto 500 characters). You can change these values if you like. The next thing is default=False, any field which uses this condition means, that particular field cannot be empty and must be filled by the user.  
 
@@ -133,9 +131,9 @@ Note: max_length is used to ensure that only certain limit of characters is bein
 
 now its time to create some tables in our database, most of which is already handled by django, we just need to run following commands:
 
-(django_project)$python manage.py makemigrations
+(django_project)$`python manage.py makemigrations`
 
-(django_project)$python manage.py migrate
+(django_project)$`python manage.py migrate`
 
 simply, the migrations command tells us what changes are going to be made in our database (right now two models will be created one is Book and other one is Order), the migrate command is just like conformation stage of makemigrations command (means if you agree with the changes mentioned by migrations command then in order to perform those changes we run migrate command) 
 
@@ -160,7 +158,7 @@ for each model to register we need the command --> admin.site.register(model_nam
 
 Now, lets check that our model is being registered properly or not. First lets ensure that our server is running properly. Put the following commmand in terminal:
 
-(django_project)$python manage.py runserver
+(django_project)$`python manage.py runserver`
 
 * now open this link in your browser http://127.0.0.1:8000/
 
@@ -208,7 +206,7 @@ Now lets see our books on our webpage but before that we need to work on views. 
 		def get_queryset(self): # new
 			query = self.request.GET.get('q')
 			return Book.objects.filter(
-			Q(title_icontains=query) | Q(author_icontains=query)
+			Q(title__icontains=query) | Q(author__icontains=query)
 			)
 
 	class BookCheckoutView(DetailView):
@@ -292,7 +290,7 @@ Its time for templates now, if you remember we used template_name in our class b
 
 * or just follow below command
 
-(django_project)$mkdir templates
+(django_project)$`mkdir templates`
 
 now open your settings.py file from ecom_project folder and update the Template section in the following manner.
 
@@ -389,7 +387,7 @@ Thats it! login is done. (next signup)
 
 Lets think about login again, a user can login only if they have an account on our site right ? so we need to provide a sign up page as well where users can create their account and then can log in successfully. Lets create a seperate app which will handle all the signup process. Just making code easier to read. Follow below command:
 
-(django_project)$python manage.py startapp accounts
+(django_project)$`python manage.py startapp accounts`
 
 To let django know about this app lets update settings.py file (inside ecom_project). Update the file in following manner
 
@@ -435,7 +433,7 @@ the UserCreationForm is a form provided by django which contains all the neccess
 go to templates folder and create a signup.html file (Note: do not put signup.html file inside registration folder, by doing that django will throw tempate does not exist Error). Follow below code,
 
 
-(django_project)$touch templates/signup.html
+(django_project)$`touch templates/signup.html`
 
 
 put the code in signup.html, present <a href = "https://github.com/YashMarmat/django-ecommece-bookstore/blob/master/templates/signup.html">here</a>.
@@ -443,7 +441,7 @@ put the code in signup.html, present <a href = "https://github.com/YashMarmat/dj
 
 ok, we done with the views now its time for url routing, go ahead and create a new urls.py for this accounts app.
 
-(django_project)$touch accounts/urls.py
+(django_project)$`touch accounts/urls.py`
 
 put the below code in this file
 
@@ -495,11 +493,11 @@ Ok, to use some static css in django we need to update few thing in our settings
 
 * now create a static folder and place it outside the ecom_project folder. Then inside this static folder create another folder called 'css' then inside this css folder create a file called base.css (follow below code).
 
-(django_project)$mkdir static
+(django_project)$`mkdir static`
 
-(django_project)$mkdir static/css
+(django_project)$`mkdir static/css`
 
-(django_project)$touch static/css/base.css
+(django_project)$`touch static/css/base.css`
 
 open 'base.css' folder and put this <a href="https://github.com/YashMarmat/django-ecommece-bookstore/blob/master/static/css/base.css">code</a> in it.
 
@@ -517,8 +515,8 @@ https://scribehow.com/shared/How_to_complete_a_purchase_on_a_website__ereaJRxxQe
 
 ### Run_via_Docker
 
-docker compose up --build (to build and start the docker container)
+`docker compose up --build` (to build and start the docker container)
 
-docker compose down (to stop and remove the docker container)
+`docker compose down` (to stop and remove the docker container)
 
 <p><a href="#top">Back to Top</a></p>
